@@ -68,6 +68,10 @@ void* hd_chunk_realloc
  * next to one another in the same file.
  *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param flags Permanent flags to the dbm.
+ * \param fd Random access filedescriptor where the dbm data is to be stored.
+ * \param off Offset within the file.
+ * \param size Size that can be maximally used within the file.
  *
  * \returns Zero on success, or non-zero on error.
  */

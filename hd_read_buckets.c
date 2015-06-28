@@ -12,7 +12,11 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ *
+ * Reads the bucket list from the dbm.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_read_buckets

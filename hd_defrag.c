@@ -124,7 +124,7 @@ int hd_merge_empties
 }
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
  *
  * Defragments the resource, both alignment of empty chunks and fragmented
  * values.

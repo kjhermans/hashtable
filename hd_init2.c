@@ -95,6 +95,7 @@ unsigned hd_hash
  * Second stage initializer for a hd_t structure.
  *
  * \param hd Non-NULL pointer to a somewhat initialized hd_t structure.
+ * \param flags Permanent flags for the hashtable.
  *
  * \returns Zero on success, or non-zero on error.
  */

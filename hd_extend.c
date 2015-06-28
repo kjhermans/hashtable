@@ -11,7 +11,7 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
  *
  * Extends the resource used by the hashtable.
  *

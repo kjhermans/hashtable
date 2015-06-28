@@ -39,6 +39,9 @@ int hd_get_fnc(
  *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
  * \param key Non-NULL pointer to an initialized tdt_t structure
+ *            filled with the key to retrieve.
+ * \param value Non-NULL pointer to an initialized tdt_t structure
+ *              to be filled with the value on successful return.
  *
  * \returns Zero on success, or non-zero on error.
  */

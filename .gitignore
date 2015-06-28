@@ -1,3 +1,17 @@
 hd_functions.h
 *.o
 libhashtable.a
+t/hell
+t/hell.c
+t/log
+t/test1
+t/test10
+t/test12
+t/test2
+t/test3
+t/test4
+t/test5
+t/test6
+t/test7
+t/test8
+t/test9

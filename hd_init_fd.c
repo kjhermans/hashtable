@@ -85,6 +85,8 @@ unsigned hd_fd_extend
  * Initializes a hd_t structure to use a file decriptor as resource.
  *
  * \param hd Non-NULL pointer to an uninitialized hd_t structure.
+ * \param flags Permanent flags to the dbm.
+ * \param fd Random access file descriptor to be used by the dbm.
  *
  * \returns Zero on success, or non-zero on error.
  */

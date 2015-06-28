@@ -54,6 +54,7 @@ void* hd_malloc_realloc
  * insertions.
  *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param flags Permanent flags to the dbm.
  *
  * \returns Zero on success, or non-zero on error.
  */

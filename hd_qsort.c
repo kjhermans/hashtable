@@ -10,6 +10,14 @@ extern "C" {
 
 #include "hd_private.h"
 
+/**
+ * \ingroup hashtable_private
+ *
+ * Implements qsort.
+ *
+ * \param list List of chunk offsets within the dbm.
+ * \param size Size of the list.
+ */
 void hd_qsort
   (unsigned* list, unsigned length)
 {
