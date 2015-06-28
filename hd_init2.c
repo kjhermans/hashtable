@@ -76,17 +76,12 @@ int hd_compare
 }
 
 static
-unsigned hd_hash
+unsigned hd_hash_default
   (hd_t* hd, hdt_t* key, void* arg)
 {
-  unsigned i=0;
-  char* s = key->data;
-  unsigned result = 0;
-  for (; i<key->size; i++) {
-    result = (31 * result) + (int)(*s);
-    ++s;
-  }
-  return result;
+  unsigned hash = 0;
+  hd_hash(key->data, key->size, &hash);
+  return hash;
 }
 
 /**
@@ -112,7 +107,7 @@ int hd_init2
     }
   }
   hd->compare = hd_compare;
-  hd->hash = hd_hash;
+  hd->hash = hd_hash_default;
   return 0;
 }
 
