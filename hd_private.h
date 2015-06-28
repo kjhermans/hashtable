@@ -15,18 +15,13 @@ extern "C" {
 
 #include <string.h>
 
-int hd_init2(hd_t* hd, unsigned int flags);
-
-#ifndef FAIL
-#define FAIL(a) { int __r; if ((__r = (a))) { return __r; } }
+#ifndef CHECK
+#define CHECK(a) { int __r; if ((__r = (a))) { return __r; } }
 #endif
 
-#ifndef FAIL2
-#define FAIL2(a,b) { int __r; if ((__r = (a))) { (b); return __r; } }
+#ifndef CHECK2
+#define CHECK2(a,b) { int __r; if ((__r = (a))) { (b); return __r; } }
 #endif
-
-int hd_read(hd_t*, unsigned off, char* buf, unsigned siz);
-int hd_write(hd_t*, unsigned off, char* buf, unsigned siz);
 
 typedef int(*hd_itrfnc)(
   hd_t*,
@@ -41,6 +36,13 @@ typedef int(*hd_itrfnc)(
   struct keyhead* keyhead,
   void* arg
 );
+
+#include "hd_functions.h"
+/*
+int hd_init2(hd_t* hd, unsigned int flags);
+
+int hd_read(hd_t*, unsigned off, char* buf, unsigned siz);
+int hd_write(hd_t*, unsigned off, char* buf, unsigned siz);
 
 int hd_init(hd_t* hd);
 
@@ -72,6 +74,7 @@ int hd_read_value(hd_t* hd, struct keyhead* keyhead, hdt_t* value);
 int hd_read_keydata(hd_t* hd, unsigned int keyoff, struct keyhead*, hdt_t*);
 
 void hd_qsort(unsigned int* list, unsigned int length);
+*/
 
 #ifdef __cplusplus
 }

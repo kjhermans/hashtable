@@ -15,17 +15,14 @@ extern "C" {
  * \param hd Non-NULL pointer to an initialized hd_t structure.
  * \returns Zero on success, or non-zero on error.
  */
-int hd_read_header
-  (hd_t* hd)
+int hd_yield_size
+  (hd_t* hd, unsigned off, unsigned size)
 {
-  CHECK(
-    hd_read(
-      hd,
-      0,
-      (char*)(&(hd->header)),
-      sizeof(struct hd_header)
-    )
-  );
+  unsigned next = hd->header.off_e;
+  hd->header.off_e = off;
+  struct chunkhead chunkhead = { next, size };
+  CHECK(hd_write_chunkhead(hd, off, &chunkhead));
+  ++(hd->header.nempties);
   return 0;
 }
 

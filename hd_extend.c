@@ -12,20 +12,27 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ *
+ * Extends the resource used by the hashtable.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param wanted The amount of bytes claimed.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_extend
-  (hd_t* hd, unsigned int wanted)
+  (hd_t* hd, unsigned wanted)
 {
-  unsigned int granted = hd->extend(hd, wanted, hd->extendarg);
+  unsigned granted = hd->extend(hd, wanted, hd->extendarg);
   if (granted > sizeof(struct chunkhead)) {
-    unsigned int oldsize = hd->header.size;
+    unsigned oldsize = hd->header.size;
     struct chunkhead chunkhead = {
       0,
       granted
     };
     hd->header.size += granted;
-    FAIL(hd_write_chunkhead(hd, oldsize, &chunkhead));
-    FAIL(hd_yield(hd, oldsize));
+    CHECK(hd_write_chunkhead(hd, oldsize, &chunkhead));
+    CHECK(hd_yield(hd, oldsize));
     return 0;
   }
   return HDERR_NOTFOUND;

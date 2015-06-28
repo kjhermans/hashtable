@@ -12,9 +12,11 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_read_keydata
-  (hd_t* hd, unsigned int keyoff, struct keyhead* keyhead, hdt_t* key)
+  (hd_t* hd, unsigned keyoff, struct keyhead* keyhead, hdt_t* key)
 {
   int reallocating = (
     key->data == 0 &&
@@ -22,7 +24,7 @@ int hd_read_keydata
     (hd->header.flags & HDFLG_ALLOCHDT) &&
     hd->realloc != 0
   );
-  unsigned int keysize = keyhead->size - sizeof(struct keyhead);
+  unsigned keysize = keyhead->size - sizeof(struct keyhead);
   if (reallocating) {
     void* mem = hd->realloc(hd, key->data, keysize, hd->reallocarg);
     if (mem) {
@@ -38,7 +40,7 @@ int hd_read_keydata
       key->size = keysize;
     }
   }
-  FAIL(hd_read(hd, keyoff + sizeof(struct keyhead), key->data, keysize));
+  CHECK(hd_read(hd, keyoff + sizeof(struct keyhead), key->data, keysize));
   return 0;
 }
 

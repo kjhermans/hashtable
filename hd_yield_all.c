@@ -15,17 +15,16 @@ extern "C" {
  * \param hd Non-NULL pointer to an initialized hd_t structure.
  * \returns Zero on success, or non-zero on error.
  */
-int hd_read_header
-  (hd_t* hd)
+int hd_yield_all
+  (hd_t* hd, unsigned ptr)
 {
-  CHECK(
-    hd_read(
-      hd,
-      0,
-      (char*)(&(hd->header)),
-      sizeof(struct hd_header)
-    )
-  );
+  while (ptr) {
+    unsigned next;
+    CHECK(hd_read_uint(hd, ptr, &next));
+    CHECK(hd_yield(hd, ptr));
+    --(hd->header.nchunks);
+    ptr = next;
+  }
   return 0;
 }
 

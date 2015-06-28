@@ -12,6 +12,12 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ *
+ * Initializer for a hd_t structure.
+ *
+ * \param hd Non-NULL pointer to an uninitialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init
   (hd_t* hd)

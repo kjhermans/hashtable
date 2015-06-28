@@ -14,13 +14,13 @@ static
 int hdc_mov_fnc(
   hd_t* hd,
   hdt_t* key,
-  unsigned int hash,
+  unsigned hash,
   hdt_t* value,
   int found,
-  unsigned int* buckets,
-  unsigned int bucket,
-  unsigned int off_last,
-  unsigned int off_cur,
+  unsigned* buckets,
+  unsigned bucket,
+  unsigned off_last,
+  unsigned off_cur,
   struct keyhead* keyhead,
   void* arg
 ) {
@@ -37,13 +37,21 @@ int hdc_mov_fnc(
 
 /**
  * \ingroup hashtable
+ *
+ * Moves the cursor to the key.
+ *
+ * \param hdc Non-NULL pointer to an initialized hdc_t structure.
+ * \param key Non-NULL pointer to an initialized tdt_t structure
+ *            containing the key to move to.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hdc_mov
   (hdc_t* hdc, hdt_t* key)
 {
-  FAIL(hd_lock(hdc->hd));
+  CHECK(hd_lock(hdc->hd));
   int r = hd_iterate(hdc->hd, key, 0, hdc_mov_fnc, hdc);
-  FAIL(hd_lock(hdc->hd));
+  CHECK(hd_lock(hdc->hd));
   return r;
 }
 

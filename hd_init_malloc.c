@@ -28,8 +28,8 @@ int hd_malloc_write
 }
 
 static
-unsigned int hd_malloc_extend
-  (hd_t* hd, unsigned int d, void* arg)
+unsigned hd_malloc_extend
+  (hd_t* hd, unsigned d, void* arg)
 {
   void* newmem = realloc(hd->resource.mem, hd->header.size + d);
   if (newmem) {
@@ -41,18 +41,26 @@ unsigned int hd_malloc_extend
 
 static
 void* hd_malloc_realloc
-  (hd_t* hd, void* ptr, unsigned int size, void* arg)
+  (hd_t* hd, void* ptr, unsigned size, void* arg)
 {
   return realloc(ptr, size);
 }
 
 /**
  * \ingroup hashtable
+ *
+ * Initializes a hd_t structure to use a malloc'ed piece of memory
+ * as resource. This memory extends automatically to accomodate
+ * insertions.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init_malloc
-  (hd_t* hd, unsigned int flags)
+  (hd_t* hd, unsigned flags)
 {
-  FAIL(hd_init(hd));
+  CHECK(hd_init(hd));
   hd->header.size = 4 * 1024;
   if ((hd->resource.mem = malloc(hd->header.size)) == NULL) {
     return HDERR_INIT;
@@ -65,7 +73,7 @@ int hd_init_malloc
   if (flags & HDFLG_ALLOCHDT) {
     hd->realloc = hd_malloc_realloc;
   }
-  FAIL(hd_init2(hd, flags));
+  CHECK(hd_init2(hd, flags));
   return 0;
 }
 

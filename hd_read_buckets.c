@@ -12,16 +12,18 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_read_buckets
-  (hd_t* hd, unsigned int* buckets)
+  (hd_t* hd, unsigned* buckets)
 {
-  FAIL(
+  CHECK(
     hd_read(
       hd,
       hd->header.off_b,
       (char*)buckets,
-      sizeof(unsigned int) * hd->header.nbuckets
+      sizeof(unsigned) * hd->header.nbuckets
     )
   );
   return 0;

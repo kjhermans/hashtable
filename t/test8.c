@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     key = (hdt_t){ keymem, 3 };
     value = (hdt_t){ valmem, 3 };
     fprintf(stderr, "\nPutting %-.*s -> %-.*s\n", 3, keymem, 3, valmem);
-    FAIL(hd_put(&hd, &key, &value, 0));
+    CHECK(hd_put(&hd, &key, &value, 0));
     hd_debug(&hd);
   }
   hd_debug(&hd);

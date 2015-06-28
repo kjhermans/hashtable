@@ -51,11 +51,11 @@ int hd_fd_write
 }
 
 static
-unsigned int hd_fd_extend
-  (hd_t* hd, unsigned int d, void* arg)
+unsigned hd_fd_extend
+  (hd_t* hd, unsigned d, void* arg)
 {
-  unsigned int cursize;
-  unsigned int r = 0;
+  unsigned cursize;
+  unsigned r = 0;
   char mem[1024];
   memset(mem, 0, 1024);
   if ((cursize = lseek(hd->resource.fd, 0, SEEK_END)) == (off_t)-1) {
@@ -81,11 +81,17 @@ unsigned int hd_fd_extend
 
 /**
  * \ingroup hashtable
+ *
+ * Initializes a hd_t structure to use a file decriptor as resource.
+ *
+ * \param hd Non-NULL pointer to an uninitialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init_fd
-  (hd_t* hd, unsigned int flags, int fd)
+  (hd_t* hd, unsigned flags, int fd)
 {
-  FAIL(hd_init(hd));
+  CHECK(hd_init(hd));
   hd->resource.fd = fd;
   if ((hd->header.size = lseek(fd, 0, SEEK_END)) == (off_t)-1) {
     return HDERR_INIT;
@@ -96,7 +102,7 @@ int hd_init_fd
   if (flags & HDFLG_EXTEND) {
     hd->extend = hd_fd_extend;
   }
-  FAIL(hd_init2(hd, flags));
+  CHECK(hd_init2(hd, flags));
   return 0;
 }
 

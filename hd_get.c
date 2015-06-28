@@ -14,33 +14,40 @@ static
 int hd_get_fnc(
   hd_t* hd,
   hdt_t* key,
-  unsigned int hash,
+  unsigned hash,
   hdt_t* value,
   int found,
-  unsigned int* buckets,
-  unsigned int bucket,
-  unsigned int off_last,
-  unsigned int off_cur,
+  unsigned* buckets,
+  unsigned bucket,
+  unsigned off_last,
+  unsigned off_cur,
   struct keyhead* keyhead,
   void* arg
 ) {
   if (!found) {
     return HDERR_NOTFOUND;
   } else {
-    FAIL(hd_read_value(hd, keyhead, value));
+    CHECK(hd_read_value(hd, keyhead, value));
     return 0;
   }
 }
 
 /**
  * \ingroup hashtable
+ *
+ * Retrieves the value of key.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param key Non-NULL pointer to an initialized tdt_t structure
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_get
   (hd_t* hd, hdt_t* key, hdt_t* value)
 {
-  FAIL(hd_lock(hd));
+  CHECK(hd_lock(hd));
   int r = hd_iterate(hd, key, value, hd_get_fnc, 0);
-  FAIL(hd_unlock(hd));
+  CHECK(hd_unlock(hd));
   return r;
 }
 

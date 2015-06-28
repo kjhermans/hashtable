@@ -28,20 +28,29 @@ int hd_mem_write
 
 /**
  * \ingroup hashtable
+ *
+ * Initializes a hd_t structure to use a delimited piece of memory.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param flags Permanent flags for this dbm.
+ * \param mem The memory on which to operate.
+ * \param size The size of the memory.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init_mem
-  (hd_t* hd, unsigned int flags, void* mem, unsigned size)
+  (hd_t* hd, unsigned flags, void* mem, unsigned size)
 {
   if (flags & HDFLG_EXTEND) {
     return HDERR_INIT;
   }
-  FAIL(hd_init(hd));
+  CHECK(hd_init(hd));
   hd->resource.mem = mem;
   hd->header.size = size;
   hd->read = hd_mem_read;
   hd->write = hd_mem_write;
   hd->ioarg = mem;
-  FAIL(hd_init2(hd, flags));
+  CHECK(hd_init2(hd, flags));
   return 0;
 }
 

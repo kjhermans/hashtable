@@ -19,13 +19,13 @@ static
 int hd_itr_fnc(
   hd_t* hd,
   hdt_t* key,
-  unsigned int hash,
+  unsigned hash,
   hdt_t* value,
   int found,
-  unsigned int* buckets,
-  unsigned int bucket,
-  unsigned int off_last,
-  unsigned int off_cur,
+  unsigned* buckets,
+  unsigned bucket,
+  unsigned off_last,
+  unsigned off_cur,
   struct keyhead* keyhead,
   void* arg
 ) {
@@ -33,14 +33,14 @@ int hd_itr_fnc(
   if (!found) {
     return HDERR_NOTFOUND;
   } else {
-    unsigned int ptr = keyhead->value;
+    unsigned ptr = keyhead->value;
     while (ptr) {
       struct chunkhead chunkhead;
-      FAIL(hd_read_chunkhead(hd, ptr, &chunkhead));
-      unsigned int chunkdatasize = chunkhead.size - sizeof(struct chunkhead);
+      CHECK(hd_read_chunkhead(hd, ptr, &chunkhead));
+      unsigned chunkdatasize = chunkhead.size - sizeof(struct chunkhead);
       char chunkdata[ chunkdatasize ];
-      FAIL(hd_read(hd, ptr + sizeof(chunkhead), chunkdata, chunkdatasize));
-      FAIL(helper->fnc(hd, key, chunkdata, chunkdatasize, helper->arg));
+      CHECK(hd_read(hd, ptr + sizeof(chunkhead), chunkdata, chunkdatasize));
+      CHECK(helper->fnc(hd, key, chunkdata, chunkdatasize, helper->arg));
       ptr = chunkhead.next;
     }
     return 0;
@@ -49,14 +49,24 @@ int hd_itr_fnc(
 
 /**
  * \ingroup hashtable
+ *
+ * Iterates through the hashtable, calling a user-provided callback
+ * for each node.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param key Non-NULL pointer to an initialized tdt_t structure
+ * \param valuefnc
+ * \param arg
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_itr
   (hd_t* hd, hdt_t* key, hdvalfnc_t valuefnc, void* arg)
 {
   struct hd_itr_helper helper = { valuefnc, arg };
-  FAIL(hd_lock(hd));
+  CHECK(hd_lock(hd));
   int r = hd_iterate(hd, key, 0, hd_itr_fnc, &helper);
-  FAIL(hd_unlock(hd));
+  CHECK(hd_unlock(hd));
   return r;
 }
 

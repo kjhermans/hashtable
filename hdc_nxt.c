@@ -11,9 +11,18 @@ extern "C" {
 #include "hd_private.h"
 
 /**
+ * \ingroup hashtable
+ *
  * Iterates through the entire hashtable.
  * Returns possibly two recoverable errors; HDERR_INVAL and HDERR_NOTFOUND.
- * ...
+ *
+ * \param hdc Non-NULL pointer to an initialized hdc_t structure.
+ * \param key Non-NULL pointer to an initialized tdt_t structure
+ *            ready to receive key data.
+ * \param value Non-NULL pointer to an initialized tdt_t structure
+ *              ready to receive value data.
+ *
+ * \returns zero on success, or non-zero on error.
  */
 int hdc_nxt
   (hdc_t* hdc, hdt_t* key, hdt_t* value)
@@ -26,18 +35,18 @@ int hdc_nxt
     if (++(hdc->bucket) >= hd->header.nbuckets) {
       return HDERR_NOTFOUND;
     }
-    FAIL(
+    CHECK(
       hd_read_uint(
         hd,
-        hd->header.off_b + (hdc->bucket * sizeof(unsigned int)),
+        hd->header.off_b + (hdc->bucket * sizeof(unsigned)),
         &(hdc->ptr)
       )
     );
   }
   struct keyhead keyhead;
-  FAIL(hd_read_keyhead(hd, hdc->ptr, &keyhead));
-  FAIL(hd_read_value(hd, &keyhead, value));
-  FAIL(hd_read_keydata(hd, hdc->ptr, &keyhead, key));
+  CHECK(hd_read_keyhead(hd, hdc->ptr, &keyhead));
+  CHECK(hd_read_value(hd, &keyhead, value));
+  CHECK(hd_read_keydata(hd, hdc->ptr, &keyhead, key));
   hdc->ptr = keyhead.next;
   return 0;
 }

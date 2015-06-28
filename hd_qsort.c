@@ -11,24 +11,24 @@ extern "C" {
 #include "hd_private.h"
 
 void hd_qsort
-  (unsigned int* list, unsigned int length)
+  (unsigned* list, unsigned length)
 {
   if (length <= 1) {
     return;
   } else if (length == 2) {
     if (list[0] > list[1]) {
-      unsigned int tmp = list[0];
+      unsigned tmp = list[0];
       list[0] = list[1];
       list[1] = tmp;
     }
     return;
   } else {
-    unsigned int pivotpos = length / 2;
-    unsigned int pivotval = list[pivotpos];
-    unsigned int smaller[ length ], smallerlength = 0;
-    unsigned int equal[ length ], equallength = 0;
-    unsigned int bigger[ length ], biggerlength = 0;
-    unsigned int i, l;
+    unsigned pivotpos = length / 2;
+    unsigned pivotval = list[pivotpos];
+    unsigned smaller[ length ], smallerlength = 0;
+    unsigned equal[ length ], equallength = 0;
+    unsigned bigger[ length ], biggerlength = 0;
+    unsigned i, l;
     for (i=0; i < length; i++) {
       if (i == pivotpos) {
         equal[equallength++] = pivotval;

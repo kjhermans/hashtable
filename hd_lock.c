@@ -12,6 +12,12 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ *
+ * Locks the dbm for access.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_lock
   (hd_t* hd)
@@ -19,20 +25,6 @@ int hd_lock
   if (hd->lock) {
     if (++(hd->locked) == 1) {
       return hd->lock(hd, 1, hd->lockarg);
-    }
-  }
-  return 0;
-}
-
-/**
- * \ingroup hashtable
- */
-int hd_unlock
-  (hd_t* hd)
-{
-  if (hd->lock) {
-    if (--(hd->locked) == 0) {
-      return hd->lock(hd, 0, hd->lockarg);
     }
   }
   return 0;

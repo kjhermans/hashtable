@@ -11,45 +11,18 @@ extern "C" {
 #include "hd_private.h"
 
 /**
+ * \ingroup hashtable
  * Administrates space yielded to the empty list.
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_yield
-  (hd_t* hd, unsigned int off)
+  (hd_t* hd, unsigned off)
 {
-  unsigned int next = hd->header.off_e;
+  unsigned next = hd->header.off_e;
   hd->header.off_e = off;
-  FAIL(hd_write_uint(hd, off, next));
+  CHECK(hd_write_uint(hd, off, next));
   ++(hd->header.nempties);
-  return 0;
-}
-
-/**
- * \ingroup hashtable
- */
-int hd_yield_size
-  (hd_t* hd, unsigned int off, unsigned int size)
-{
-  unsigned int next = hd->header.off_e;
-  hd->header.off_e = off;
-  struct chunkhead chunkhead = { next, size };
-  FAIL(hd_write_chunkhead(hd, off, &chunkhead));
-  ++(hd->header.nempties);
-  return 0;
-}
-
-/**
- * \ingroup hashtable
- */
-int hd_yield_all
-  (hd_t* hd, unsigned int ptr)
-{
-  while (ptr) {
-    unsigned int next;
-    FAIL(hd_read_uint(hd, ptr, &next));
-    FAIL(hd_yield(hd, ptr));
-    --(hd->header.nchunks);
-    ptr = next;
-  }
   return 0;
 }
 

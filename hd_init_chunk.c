@@ -13,7 +13,7 @@ extern "C" {
 #include <sys/file.h>
 #include <unistd.h>
 
-extern void* realloc(void* ptr, unsigned int size);
+extern void* realloc(void* ptr, unsigned size);
 extern void  free(void* ptr);
 
 static
@@ -55,18 +55,26 @@ int hd_chunk_write
 
 static
 void* hd_chunk_realloc
-  (hd_t* hd, void* ptr, unsigned int size, void* arg)
+  (hd_t* hd, void* ptr, unsigned size, void* arg)
 {
   return realloc(ptr, size);
 }
 
 /**
  * \ingroup hashtable
+ *
+ * Initializes a hd_t structure based on a delimited file based resource.
+ * Using this function will allow you to run multiple pieces chunks
+ * next to one another in the same file.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init_chunk
-  (hd_t* hd, unsigned int flags, int fd, unsigned off, unsigned size)
+  (hd_t* hd, unsigned flags, int fd, unsigned off, unsigned size)
 {
-  FAIL(hd_init(hd));
+  CHECK(hd_init(hd));
   hd->resource.fd = fd;
   hd->resource.offset = off;
   hd->header.size = size;
@@ -76,7 +84,7 @@ int hd_init_chunk
   if (flags & HDFLG_ALLOCHDT) {
     hd->realloc = hd_chunk_realloc;
   }
-  FAIL(hd_init2(hd, flags));
+  CHECK(hd_init2(hd, flags));
   return 0;
 }
 

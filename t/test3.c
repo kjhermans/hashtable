@@ -13,8 +13,8 @@ int main(int argc, char* argv[]) {
   char mem[100];
   hdt_t rvalue = { mem, 100 };
   hd_init_mem(&hd, 0, (void*)area, MEMSIZE);
-  FAIL(hd_put(&hd, &key, &value, 0));
-  FAIL(hd_get(&hd, &key, &rvalue));
+  CHECK(hd_put(&hd, &key, &value, 0));
+  CHECK(hd_get(&hd, &key, &rvalue));
   fprintf(stderr, "Received '%-.*s'\n", rvalue.size, (char*)(rvalue.data));
   return 0;
 }

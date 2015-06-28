@@ -17,14 +17,14 @@ int main(int argc, char* argv[]) {
   hdt_t rvalue = { mem, 100 };
   memset(area, 0, MEMSIZE);
   hd_init_mem(&hd, 0, (void*)area, MEMSIZE);
-  FAIL(hd_put(&hd, &key1, &value1, 0));
+  CHECK(hd_put(&hd, &key1, &value1, 0));
   hd_debug(&hd);
-  FAIL(hd_put(&hd, &key2, &value2, 0));
+  CHECK(hd_put(&hd, &key2, &value2, 0));
   debug_mem(area, 512);
   hd_debug(&hd);
-  FAIL(hd_get(&hd, &key1, &rvalue));
+  CHECK(hd_get(&hd, &key1, &rvalue));
   fprintf(stderr, "Received '%-.*s'\n", rvalue.size, (char*)(rvalue.data));
-  FAIL(hd_get(&hd, &key2, &rvalue));
+  CHECK(hd_get(&hd, &key2, &rvalue));
   fprintf(stderr, "Received '%-.*s'\n", rvalue.size, (char*)(rvalue.data));
   return 0;
 }

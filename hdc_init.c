@@ -12,13 +12,20 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * 
+ * Initializes a hashtable cursor.
+ *
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param hdc Non-NULL pointer to a non-initialized hdc_t structure.
+ * 
+ * \returns Zero on success, or non-zero on error.
  */
 int hdc_init
   (hd_t* hd, hdc_t* hdc)
 {
   hdc->hd = hd;
   hdc->bucket = 0;
-  FAIL(hd_read_uint(hd, hd->header.off_b, &(hdc->ptr)));
+  CHECK(hd_read_uint(hd, hd->header.off_b, &(hdc->ptr)));
   hdc->scn = hd->header.scn;
   return 0;
 }

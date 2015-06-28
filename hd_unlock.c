@@ -15,17 +15,14 @@ extern "C" {
  * \param hd Non-NULL pointer to an initialized hd_t structure.
  * \returns Zero on success, or non-zero on error.
  */
-int hd_read_header
+int hd_unlock
   (hd_t* hd)
 {
-  CHECK(
-    hd_read(
-      hd,
-      0,
-      (char*)(&(hd->header)),
-      sizeof(struct hd_header)
-    )
-  );
+  if (hd->lock) {
+    if (--(hd->locked) == 0) {
+      return hd->lock(hd, 0, hd->lockarg);
+    }
+  }
   return 0;
 }
 

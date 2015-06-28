@@ -12,9 +12,11 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_write
-  (hd_t* hd, unsigned int off, char* buf, unsigned int size)
+  (hd_t* hd, unsigned off, char* buf, unsigned size)
 {
   if (off + size > hd->header.size) {
     return HDERR_BOUNDS;

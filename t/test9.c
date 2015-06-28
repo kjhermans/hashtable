@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     key = (hdt_t){ keymem, 3 };
     value = (hdt_t){ valmem, 3 };
     fprintf(stderr, "\nPutting %-.*s -> %-.*s\n", 3, keymem, 3, valmem);
-    FAIL(hd_put(&hd, &key, &value, 0));
+    CHECK(hd_put(&hd, &key, &value, 0));
   }
   for (i=0; i<30; i++) {
     char keymem[3], valmem[3];
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     key = (hdt_t){ keymem, 3 };
     value = (hdt_t){ valmem, 3 };
     fprintf(stderr, "\nPutting %-.*s -> %-.*s\n", 3, keymem, 3, valmem);
-    FAIL(hd_put(&hd, &key, &value, 0));
+    CHECK(hd_put(&hd, &key, &value, 0));
   }
   for (i=0; i<30; i++) {
     char keymem[3], valmem[3];
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     key = (hdt_t){ keymem, 3 };
     value = (hdt_t){ valmem, 3 };
     fprintf(stderr, "\nDeleting %-.*s -> %-.*s\n", 3, keymem, 3, valmem);
-    FAIL(hd_del(&hd, &key, &value));
+    CHECK(hd_del(&hd, &key, &value));
   }
   hd_debug(&hd);
   debug_mem(area, 4096);

@@ -12,16 +12,18 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_read_uint
-  (hd_t* hd, unsigned int where, unsigned int* what)
+  (hd_t* hd, unsigned where, unsigned* what)
 {
-  FAIL(
+  CHECK(
     hd_read(
       hd,
       where,
       (char*)what,
-      sizeof(unsigned int)
+      sizeof(unsigned)
     )
   );
   return 0;

@@ -12,14 +12,14 @@ extern "C" {
 
 static
 int hd_init_create
-  (hd_t* hd, unsigned int flags)
+  (hd_t* hd, unsigned flags)
 {
-  unsigned int buckets[] = { 0, 0, 0, 0, 0 };
+  unsigned buckets[] = { 0, 0, 0, 0, 0 };
   struct chunkhead emptychunk = {
     0,                          /* no next chunk */
     hd->header.size - (
       sizeof(struct hd_header) +
-      (5 * sizeof(unsigned int))
+      (5 * sizeof(unsigned))
     )
   };
   struct hd_header header = {
@@ -28,26 +28,26 @@ int hd_init_create
     flags,                      /* flags */
     hd->header.size,            /* our space */
     sizeof(struct hd_header),   /* bucket list starts just beyond us */
-    sizeof(struct hd_header) + (5 * sizeof(unsigned int)),
+    sizeof(struct hd_header) + (5 * sizeof(unsigned)),
     0,                          /* scn */
     0,                          /* 0 entries */
     1,                          /* 1 empty chunk (the remainder) */
     0                           /* number of value chunks */
   };
-  FAIL(hd->write(hd, 0, (char*)(&header), sizeof(struct hd_header), hd->ioarg));
-  FAIL(
+  CHECK(hd->write(hd, 0, (char*)(&header), sizeof(struct hd_header), hd->ioarg));
+  CHECK(
     hd->write(
       hd,
       sizeof(struct hd_header),
       (char*)buckets,
-      (5 * sizeof(unsigned int)),
+      (5 * sizeof(unsigned)),
       hd->ioarg
     )
   );
-  FAIL(
+  CHECK(
     hd->write(
       hd,
-      sizeof(struct hd_header) + (5 * sizeof(unsigned int)),
+      sizeof(struct hd_header) + (5 * sizeof(unsigned)),
       (char*)(&emptychunk),
       sizeof(struct chunkhead),
       hd->ioarg
@@ -60,7 +60,7 @@ static
 int hd_compare
   (hd_t* hd, hdt_t* key1, hdt_t* key2, void* arg)
 {
-  unsigned int size = key1->size;
+  unsigned size = key1->size;
   int c, key1bigger = 0;
   if (key2->size < size) {
     key1bigger = 1;
@@ -76,12 +76,12 @@ int hd_compare
 }
 
 static
-unsigned int hd_hash
+unsigned hd_hash
   (hd_t* hd, hdt_t* key, void* arg)
 {
-  unsigned int i=0;
+  unsigned i=0;
   char* s = key->data;
-  unsigned int result = 0;
+  unsigned result = 0;
   for (; i<key->size; i++) {
     result = (31 * result) + (int)(*s);
     ++s;
@@ -90,18 +90,24 @@ unsigned int hd_hash
 }
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Second stage initializer for a hd_t structure.
+ *
+ * \param hd Non-NULL pointer to a somewhat initialized hd_t structure.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_init2
-  (hd_t* hd, unsigned int flags)
+  (hd_t* hd, unsigned flags)
 {
   struct hd_header header;
-  FAIL(hd->read(hd, 0, (char*)(&header), sizeof(struct hd_header), hd->ioarg));
+  CHECK(hd->read(hd, 0, (char*)(&header), sizeof(struct hd_header), hd->ioarg));
   if (memcmp(header.magic, "hdi", 4)) {
     if (flags & HDFLG_MUSTEXIST) {
       return HDERR_INIT;
     } else {
-      FAIL(hd_init_create(hd, flags));
+      CHECK(hd_init_create(hd, flags));
     }
   }
   hd->compare = hd_compare;

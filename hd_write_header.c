@@ -12,11 +12,13 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \returns Zero on success, or non-zero on error.
  */
 int hd_write_header
   (hd_t* hd)
 {
-  FAIL(
+  CHECK(
     hd_write(
       hd,
       0,

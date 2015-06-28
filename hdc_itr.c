@@ -12,6 +12,14 @@ extern "C" {
 
 /**
  * \ingroup hashtable
+ *
+ * \param hdc Non-NULL pointer to an initialized hdc_t structure.
+ * \param valuefnc Callback function pointer to receive a potentially
+ *                 large amount of data.
+ * \param arg Argument provided by the caller, which will be passed to
+ *            the callback for each value chunk.
+ *
+ * \returns Zero on success, or non-zero on error.
  */
 int hdc_itr
   (hdc_t* hdc, hdvalfnc_t valuefnc, void* arg)
@@ -24,28 +32,28 @@ int hdc_itr
     if (++(hdc->bucket) >= hd->header.nbuckets) {
       return HDERR_NOTFOUND;
     }
-    FAIL(
+    CHECK(
       hd_read_uint(
         hd,
-        hd->header.off_b + (hdc->bucket * sizeof(unsigned int)),
+        hd->header.off_b + (hdc->bucket * sizeof(unsigned)),
         &(hdc->ptr)
       )
     );
   }
   struct keyhead keyhead;
-  FAIL(hd_read_keyhead(hd, hdc->ptr, &keyhead));
-  unsigned int keysize = keyhead.size - sizeof(struct keyhead);
+  CHECK(hd_read_keyhead(hd, hdc->ptr, &keyhead));
+  unsigned keysize = keyhead.size - sizeof(struct keyhead);
   char keydata[ keysize ];
-  FAIL(hd_read(hd, hdc->ptr + sizeof(struct keyhead), keydata, keysize));
+  CHECK(hd_read(hd, hdc->ptr + sizeof(struct keyhead), keydata, keysize));
   hdt_t key = { keydata, keysize };
-  unsigned int ptr = keyhead.value;
+  unsigned ptr = keyhead.value;
   while (ptr) {
     struct chunkhead chunkhead;
-    FAIL(hd_read_chunkhead(hd, ptr, &chunkhead));
-    unsigned int chunkdatasize = chunkhead.size - sizeof(struct chunkhead);
+    CHECK(hd_read_chunkhead(hd, ptr, &chunkhead));
+    unsigned chunkdatasize = chunkhead.size - sizeof(struct chunkhead);
     char chunkdata[ chunkdatasize ];
-    FAIL(hd_read(hd, ptr + sizeof(struct chunkhead), chunkdata, chunkdatasize));
-    FAIL(valuefnc(hd, &key, chunkdata, chunkdatasize, arg));
+    CHECK(hd_read(hd, ptr + sizeof(struct chunkhead), chunkdata, chunkdatasize));
+    CHECK(valuefnc(hd, &key, chunkdata, chunkdatasize, arg));
     ptr = chunkhead.next;
   }
   hdc->ptr = keyhead.next;
