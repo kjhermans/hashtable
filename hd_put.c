@@ -1,6 +1,7 @@
 /*
-** Copyright 2008 K.J. Hermans (kees@pink-frog.com)
+** Copyright 2015 K.J. Hermans (kees@pink-frog.com)
 ** This code is part of simpledbm, an API to a dbm on a finite resource.
+** License: BSD
 */
 
 #ifdef __cplusplus
@@ -131,6 +132,9 @@ int hd_put_
   return r;
 }
 
+/**
+ * \ingroup hashtable
+ */
 int hd_put
   (hd_t* hd, hdt_t* key, hdt_t* value, unsigned flags)
 {

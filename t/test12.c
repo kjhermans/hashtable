@@ -24,7 +24,7 @@ int main
     {
       char buf[1024];
       memset(buf, 0, 1024);
-      write(fd, buf, 1024);
+      if (write(fd, buf, 1024) != 1024) { return ~0; }
     }
     hd_init_fd(&hd, HDFLG_DUPLKEYS|HDFLG_EXTEND, fd);
     char chars[] = "abcdefghijklmnopqrstuvwxyz";

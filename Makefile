@@ -56,7 +56,9 @@ clean:
 	@cd t && make clean
 
 archive: clean
-	@cd .. && tar czvf ~/hashtable.tar.gz hashtable/
+	@RELEASE=$$(cat release); \
+	/bin/echo "  [TAR] ~/hashtable-$$RELEASE.tar.gz"; \
+	cd .. && tar czf ~/hashtable-$$RELEASE.tar.gz hashtable/
 
 %.o: %.c
 	@echo -n "Compiling $< .. "; \

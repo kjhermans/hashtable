@@ -13,6 +13,8 @@ extern "C" {
 #define _HD_PRIVATE_
 #include "hd.h"
 
+#include <string.h>
+
 int hd_init2(hd_t* hd, unsigned int flags);
 
 #ifndef FAIL
@@ -22,10 +24,6 @@ int hd_init2(hd_t* hd, unsigned int flags);
 #ifndef FAIL2
 #define FAIL2(a,b) { int __r; if ((__r = (a))) { (b); return __r; } }
 #endif
-
-extern void* memset(void*,int,unsigned);
-extern void* memcpy(void*,void*,unsigned);
-extern int memcmp(void*,void*,unsigned);
 
 int hd_read(hd_t*, unsigned off, char* buf, unsigned siz);
 int hd_write(hd_t*, unsigned off, char* buf, unsigned siz);
