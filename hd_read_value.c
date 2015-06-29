@@ -11,8 +11,14 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Retrieves value data from the dbm's resource.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param[in] keyhead Previously retrieved key header.
+ * \param[out] value On successful return, contains the value data.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_read_value

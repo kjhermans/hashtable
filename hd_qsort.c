@@ -16,7 +16,7 @@ extern "C" {
  * Implements qsort.
  *
  * \param list List of chunk offsets within the dbm.
- * \param size Size of the list.
+ * \param length Size of the list.
  */
 void hd_qsort
   (unsigned* list, unsigned length)

@@ -11,9 +11,13 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
  * Administrates space yielded to the empty list.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param off Offset of the chunk to administrate.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_yield

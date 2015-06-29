@@ -11,8 +11,14 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Writes the bucket list at its appropriate place in the dbm.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param buckets The bucket list of at least
+                   hd->header.nbuckets * sizeof(unsigned) bytes long.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_write_buckets

@@ -11,8 +11,12 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Write the dbm's header into the dbm's resource.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_write_header

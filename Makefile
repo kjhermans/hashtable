@@ -27,6 +27,9 @@ archive: clean
 	/bin/echo "  [TAR] ~/hashtable-$$RELEASE.tar.gz"; \
 	cd .. && tar czf ~/hashtable-$$RELEASE.tar.gz hashtable/
 
+doc:
+	@doxygen
+
 %.o: %.c
 	@echo -n "Compiling $< .. "; \
 	if $(CC) $(CFLAGS) -c -o $@ $<; then \

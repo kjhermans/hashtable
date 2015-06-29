@@ -11,18 +11,25 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Reads an unsigned integer from the resource.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param offset Where to start reading.
+ * \param uinteger On successful return, contains the value at
+ *                 this place in the dbm's resource.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_read_uint
-  (hd_t* hd, unsigned where, unsigned* what)
+  (hd_t* hd, unsigned offset, unsigned* uinteger)
 {
   CHECK(
     hd_read(
       hd,
-      where,
-      (char*)what,
+      offset,
+      (char*)uinteger,
       sizeof(unsigned)
     )
   );

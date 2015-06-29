@@ -11,19 +11,24 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Yields a chain of chunks to the empty list.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param offset Offset to the first chunk to yield.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_yield_all
-  (hd_t* hd, unsigned ptr)
+  (hd_t* hd, unsigned offset)
 {
-  while (ptr) {
+  while (offset) {
     unsigned next;
-    CHECK(hd_read_uint(hd, ptr, &next));
-    CHECK(hd_yield(hd, ptr));
+    CHECK(hd_read_uint(hd, offset, &next));
+    CHECK(hd_yield(hd, offset));
     --(hd->header.nchunks);
-    ptr = next;
+    offset = next;
   }
   return 0;
 }

@@ -11,18 +11,24 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Writes an unsigned integer at a specified offset into the dbm's resource.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param offset The offset at which to start writing.
+ * \param uinteger The data to write.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_write_uint
-  (hd_t* hd, unsigned where, unsigned what)
+  (hd_t* hd, unsigned offset, unsigned uinteger)
 {
   CHECK(
     hd_write(
       hd,
-      where,
-      (char*)(&what),
+      offset,
+      (char*)(&uinteger),
       sizeof(unsigned)
     )
   );

@@ -11,11 +11,14 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
  *
  * Reads the bucket list from the dbm.
  *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param buckets Contains the bucket list on successful return.
+ *                This list should be at least hd->header.nbuckets
+ *                * sizeof(unsigned) long.
  *
  * \returns Zero on success, or non-zero on error.
  */

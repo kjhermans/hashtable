@@ -11,8 +11,15 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Reads a key header into its appropriate data structure from
+ * the dbm's resource.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param off Offset of the keyheader.
+ * \param keyhead On successful return, contains the keyheader.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_read_keyhead

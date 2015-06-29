@@ -11,8 +11,14 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Yields a block of data from the dbm's resource to the empty list.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ * \param off Offset to the chunk.
+ * \param size Size of the chunk.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_yield_size

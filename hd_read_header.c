@@ -11,8 +11,14 @@ extern "C" {
 #include "hd_private.h"
 
 /**
- * \ingroup hashtable
+ * \ingroup hashtable_private
+ *
+ * Reads the resource header (the first n bytes) from the
+ * resource into hd->header. This is done with each API access
+ * so as to enable concurrent access to the file.
+ *
  * \param hd Non-NULL pointer to an initialized hd_t structure.
+ *
  * \returns Zero on success, or non-zero on error.
  */
 int hd_read_header
