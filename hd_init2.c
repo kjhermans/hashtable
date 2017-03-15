@@ -98,6 +98,7 @@ int hd_init2
   (hd_t* hd, unsigned flags)
 {
   struct hd_header header;
+
   CHECK(hd->read(hd, 0, (char*)(&header), sizeof(struct hd_header), hd->ioarg));
   if (memcmp(header.magic, "hdi", 4)) {
     if (flags & HDFLG_MUSTEXIST) {
@@ -105,6 +106,8 @@ int hd_init2
     } else {
       CHECK(hd_init_create(hd, flags));
     }
+  } else {
+    hd->header = header;
   }
   hd->compare = hd_compare;
   hd->hash = hd_hash_default;
